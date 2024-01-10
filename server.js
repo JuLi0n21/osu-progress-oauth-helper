@@ -4,8 +4,6 @@ const app = express();
 
 const port = process.env.PORT || 9000;
 
-let tokenData;
-
 app.use((req, res, next) => {
   console.log(`[${new Date().toLocaleString()}] ${req.method} ${req.url}`);
   next();
