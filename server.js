@@ -21,13 +21,11 @@ app.get('/authorize', (req, res) => {
 
   if(req.query.port != null){
 
-  
     const authorizationUrl = 'https://osu.ppy.sh/oauth/authorize';
     const redirectUri = `https://${process.env.URL}/callback`;
     const client_id = process.env.CLIENT_ID;
     const response_type = 'code';
-    const scope = 'public identify';
-    const state = 'Randomstate';
+    const scope = process.env.SCOPE;
     
     res.redirect(`${authorizationUrl}?client_id=${client_id}&redirect_uri=${redirectUri}&response_type=${response_type}&scope=${scope}&state=${req.query.port}`);
   } else {
@@ -37,8 +35,7 @@ app.get('/authorize', (req, res) => {
   
 app.get('/callback', async (req, res) => {
   const authorizationCode = req.query.code;
-
-  console.log(req.query.state)
+  const callbackport = req.query.state; //port of application
   try {
     const tokenEndpoint = 'https://osu.ppy.sh/oauth/token';
     const requestBody = new URLSearchParams({
@@ -60,8 +57,7 @@ app.get('/callback', async (req, res) => {
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        res.redirect(`http://localhost:${req.query.state}/api/callback?access_token=${data.access_token}&refresh_token=${data.refresh_token}&expires_in=${data.expires_in}`)
-        //res.json(data);
+        res.redirect(`http://localhost:${callbackport}/${process.env.CALLBACK_URL}?access_token=${data.access_token}&refresh_token=${data.refresh_token}&expires_in=${data.expires_in}`);
       })
       .catch(error => console.error('Error:', error));
     
