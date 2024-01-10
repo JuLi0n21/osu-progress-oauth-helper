@@ -60,7 +60,7 @@ app.get('/callback', async (req, res) => {
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        res.redirect(`http://localhost:${req.query.state}/callback?access_token=${data.access_token}&refresh_token=${data.refresh_token}&expires_in=${data.expires_in}`)
+        res.redirect(`http://localhost:${req.query.state}/api/callback?access_token=${data.access_token}&refresh_token=${data.refresh_token}&expires_in=${data.expires_in}`)
         //res.json(data);
       })
       .catch(error => console.error('Error:', error));
