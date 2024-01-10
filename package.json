@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "small server to see how login button works",
   "main": "server.js",
-  "engines": {
-    "node": "20.x"
-  },
   "scripts": {
     "build": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
