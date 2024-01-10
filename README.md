@@ -13,7 +13,7 @@ Route access token back to end user without them needing own Api credentials!
 - CLIENT_ID: client_id
 - CLIENT_SECRET: client_secret
 
-5. Add link to the vercel domain with port as state to /authoritze: 
+5. Add link to the vercel domain with port as state to /authorize: 
 https://example.vercel.app/authorize?port=4200
 
 6. recieive anser at:
