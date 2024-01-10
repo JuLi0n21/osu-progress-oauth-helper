@@ -23,7 +23,7 @@ app.get('/authorize', (req, res) => {
 
   
     const authorizationUrl = 'https://osu.ppy.sh/oauth/authorize';
-    const redirectUri = `https://${process.env.VERCEL_URL}/callback`;
+    const redirectUri = `https://${process.env.URL}/callback`;
     const client_id = process.env.CLIENT_ID;
     const response_type = 'code';
     const scope = 'public identify';
@@ -46,7 +46,7 @@ app.get('/callback', async (req, res) => {
       'client_secret': process.env.CLIENT_SECRET,
       'code': authorizationCode,
       'grant_type': 'authorization_code',
-      'redirect_uri': `https://${process.env.VERCEL_URL}/callback`
+      'redirect_uri': `https://${process.env.URL}/callback`
     });
     
     fetch(tokenEndpoint, {
@@ -60,7 +60,7 @@ app.get('/callback', async (req, res) => {
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        res.redirect(`https://localhost:${req.query.state}/callback?access_token=data${data.access_token}`)
+        res.redirect(`https://localhost:${req.query.state}/callback?access_token=${data.access_token}&refresh_token=${data.refresh_token}&expires_in=${data.expires_in}`)
         //res.json(data);
       })
       .catch(error => console.error('Error:', error));
