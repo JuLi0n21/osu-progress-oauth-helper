@@ -1,8 +1,8 @@
 const express = require('express');
-const axios = require('axios')
+require('dotenv').config();
 const app = express();
 
-const port = 4000;
+const port = process.env.PORT || 9000;
 
 let tokenData;
 
@@ -19,8 +19,8 @@ app.get('/', (req, res) => {
 
 app.get('/authorize', (req, res) => {
     const authorizationUrl = 'https://osu.ppy.sh/oauth/authorize';
-    const redirectUri = 'http://localhost:4000/callback';
-    const client_id = process.argv[2];
+    const redirectUri = `http://localhost:${port}/callback`;
+    const client_id = process.env.CLIENT_ID;
     const response_type = 'code';
     const scope = 'public identify';
     const state = 'Randomstate';
@@ -35,11 +35,11 @@ app.get('/callback', async (req, res) => {
   try {
     const tokenEndpoint = 'https://osu.ppy.sh/oauth/token';
     const requestBody = new URLSearchParams({
-      'client_id': process.argv[2],
-      'client_secret': process.argv[3],
+      'client_id': process.env.CLIENT_ID,
+      'client_secret': process.env.CLIENT_SECRET,
       'code': authorizationCode,
       'grant_type': 'authorization_code',
-      'redirect_uri': 'http://localhost:4000/callback'
+      'redirect_uri': `http://localhost:${port}/callback`
     });
     
     fetch(tokenEndpoint, {
