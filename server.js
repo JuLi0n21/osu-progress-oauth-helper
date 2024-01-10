@@ -18,6 +18,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/authorize', (req, res) => {
+
+  if(req.query.port != null){
+
+  
     const authorizationUrl = 'https://osu.ppy.sh/oauth/authorize';
     const redirectUri = `https://${process.env.VERCEL_URL}/callback`;
     const client_id = process.env.CLIENT_ID;
@@ -25,13 +29,16 @@ app.get('/authorize', (req, res) => {
     const scope = 'public identify';
     const state = 'Randomstate';
     
-    res.redirect(`${authorizationUrl}?client_id=${client_id}&redirect_uri=${redirectUri}&response_type=${response_type}&scope=${scope}`);
+    res.redirect(`${authorizationUrl}?client_id=${client_id}&redirect_uri=${redirectUri}&response_type=${response_type}&scope=${scope}&state=${req.query.port}`);
+  } else {
+    res.json({ error: "callback port needs to be defined"})
+  }
 });
   
 app.get('/callback', async (req, res) => {
   const authorizationCode = req.query.code;
 
-  console.log(authorizationCode)
+  console.log(req.query.state)
   try {
     const tokenEndpoint = 'https://osu.ppy.sh/oauth/token';
     const requestBody = new URLSearchParams({
