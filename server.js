@@ -39,7 +39,7 @@ app.get('/callback', async (req, res) => {
       'client_secret': process.env.CLIENT_SECRET,
       'code': authorizationCode,
       'grant_type': 'authorization_code',
-      'redirect_uri': `http://localhost:${port}/callback`
+      'redirect_uri': `https://${process.env.VERCEL_BRANCH_URL}/callback`
     });
     
     fetch(tokenEndpoint, {
