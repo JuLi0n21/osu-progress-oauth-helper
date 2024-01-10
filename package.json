@@ -4,7 +4,7 @@
   "description": "small server to see how login button works",
   "main": "server.js",
   "engines": {
-    "node": "14.x"
+    "node": "20.x"
   },
   "scripts": {
     "build": "node server.js",
