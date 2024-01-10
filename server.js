@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 app.get('/authorize', (req, res) => {
     const authorizationUrl = 'https://osu.ppy.sh/oauth/authorize';
-    const redirectUri = `http://localhost:${port}/callback`;
+    const redirectUri = `https://${process.env.VERCEL_URL}/callback`;
     const client_id = process.env.CLIENT_ID;
     const response_type = 'code';
     const scope = 'public identify';
@@ -39,7 +39,7 @@ app.get('/callback', async (req, res) => {
       'client_secret': process.env.CLIENT_SECRET,
       'code': authorizationCode,
       'grant_type': 'authorization_code',
-      'redirect_uri': `https://${process.env.VERCEL_BRANCH_URL}/callback`
+      'redirect_uri': `https://${process.env.VERCEL_URL}/callback`
     });
     
     fetch(tokenEndpoint, {
