@@ -35,7 +35,7 @@ app.get('/refresh', (req, res) => {
 
   const refresh_token = req.body.refresh_token;
   const callbackport = req.query.port;
-  
+
   if(callbackport != null){
 
     try {
@@ -60,7 +60,7 @@ app.get('/refresh', (req, res) => {
           console.log(data)
           res.redirect(`http://localhost:${callbackport}/${process.env.CALLBACK_URL}?access_token=${data.access_token}&refresh_token=${data.refresh_token}&expires_in=${data.expires_in}`);
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => res.json(error));
     
       } catch (error) {
         console.error(error);

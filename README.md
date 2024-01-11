@@ -20,4 +20,11 @@ https://example.vercel.app/authorize?port=4200
 https://localhost:4200/{CALLBACK_URL}?access_token={access_token}&refresh_token={refresh_token}&expires_in={expires_in}
 7. profit?
 
+To resfresh the token request this
+POST: 
+https://example.vercel.app/refresh?port=4200
+body: refresh_token : {refreshtoken}
+
+new token should be send like in 6
+
 ## use at own risk, security holes might be in there 
