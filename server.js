@@ -30,10 +30,54 @@ app.get('/authorize', (req, res) => {
     res.json({ error: "callback port needs to be defined"})
   }
 });
+
+app.get('/refresh', (req, res) => {
+
+  const refresh_token = req.body.refresh_token;
+  const callbackport = req.query.port;
+  
+  if(callbackport != null){
+
+    try {
+      const tokenEndpoint = 'https://osu.ppy.sh/oauth/token';
+      const requestBody = new URLSearchParams({
+        'client_id': process.env.CLIENT_ID,
+        'client_secret': process.env.CLIENT_SECRET,
+        'refresh_token': refresh_token,
+        'grant_type': 'refresh_token',
+      });
+      
+      fetch(tokenEndpoint, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: requestBody
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          res.redirect(`http://localhost:${callbackport}/${process.env.CALLBACK_URL}?access_token=${data.access_token}&refresh_token=${data.refresh_token}&expires_in=${data.expires_in}`);
+        })
+        .catch(error => console.error('Error:', error));
+    
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
+    
+  } else {
+    res.json({ error: "callback port needs to be defined"})
+  }
+
+});
   
 app.get('/callback', async (req, res) => {
+
   const authorizationCode = req.query.code;
   const callbackport = req.query.state; //port of application
+
   try {
     const tokenEndpoint = 'https://osu.ppy.sh/oauth/token';
     const requestBody = new URLSearchParams({
