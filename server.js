@@ -36,7 +36,7 @@ app.get('/refresh', (req, res) => {
   const refresh_token = req.body.refresh_token;
   const callbackport = req.query.port;
 
-  if(callbackport != null){
+  if(callbackport != null && refresh_token != null){
 
     try {
       const tokenEndpoint = 'https://osu.ppy.sh/oauth/token';
@@ -68,7 +68,7 @@ app.get('/refresh', (req, res) => {
       }
     
   } else {
-    res.json({ error: "callback port needs to be defined"})
+    res.json({ error: "callback port and refresh_token needs to be defined"})
   }
 
 });
