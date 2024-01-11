@@ -36,7 +36,7 @@ app.get('/refresh', (req, res) => {
   const refresh_token = req.body.refresh_token;
   const callbackport = req.query.port;
 
-  if(callbackport != null && refresh_token != null){
+  if(callbackport != undefined && refresh_token != undefined){
 
     try {
       const tokenEndpoint = 'https://osu.ppy.sh/oauth/token';
