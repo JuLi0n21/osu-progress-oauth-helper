@@ -31,7 +31,7 @@ app.get('/authorize', (req, res) => {
   }
 });
 
-app.get('/refresh', (req, res) => {
+app.post('/refresh', (req, res) => {
 
   const refresh_token = req.body.refresh_token;
   const callbackport = req.query.port;
